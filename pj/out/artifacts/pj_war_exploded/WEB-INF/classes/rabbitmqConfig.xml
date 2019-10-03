@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/rabbit
+        http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--配置connection-factory，并设置connection的参数-->
+    <context:component-scan base-package="com.sonydafa.pj.service"/>
+    <rabbit:connection-factory id="connectionFactory" host="localhost"
+                               port="5672"  channel-cache-size="50"
+                               username="guest" password="guest" virtual-host="/"/>
+
+    <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
+    <rabbit:admin id="rabbitAdmin"  connection-factory="connectionFactory" />
+
+    <!--exclusive 排他性，只在首次声明的时候可以对其连接，其他的时候不可以连接，在断开连接后会自动删除-->
+
+    <rabbit:queue name="myQueue" auto-delete="false" durable="true" exclusive="false" />
+
+    <rabbit:direct-exchange name="directExchange" durable="true" auto-delete="false">
+        <rabbit:bindings>
+            <rabbit:binding queue="myQueue" key="sessionId"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+
+    <!--定义rabbit template用于数据的接收和发送 这里就是生产者调用rabbitTemplate来进行消息发送-->
+    <rabbit:template id="rabbitTemplate" exchange="directExchange" connection-factory="connectionFactory"/>
+    <!--定义消费者-->
+    <bean id="consumer" class="com.sonydafa.pj.service.Consumer"/>
+    <!--监听器，当有消息到达时会通知监听在对应的队列上的监听对象，我觉得就是将队列和消费者绑定，让消费者能从队列中获取消息-->
+    <!--prefetch表示一个消费者一次最多能取多少个消息，concurrency表示一个队列能接几个消费者-->
+
+    <rabbit:listener-container connection-factory="connectionFactory" acknowledge="auto">
+        <rabbit:listener ref="consumer" queues="myQueue"/>
+    </rabbit:listener-container>
+</beans>

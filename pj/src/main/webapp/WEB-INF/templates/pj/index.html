@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>一键评教</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+
+    <form role="form" method="post" action="/pj/index">
+        <p th:text="${errorInfo}" class="text-danger"></p>
+        <div class="form-group">
+            <label for="name">学号</label>
+            <input type="text" class="form-control" id="name" name="id" placeholder="请输入学号">
+        </div>
+        <div class="form-group">
+            <label for="pw">密码</label>
+            <input type="password" class="form-control" id="pw" name="password" placeholder="教务处密码">
+        </div>
+        <div class="form-group">
+            <label for="captcha">验证码</label>
+            <img th:src="${path}" alt="验证码未加载成功, 刷新即可"/>
+            <input type="text" class="form-control" id="captcha" name="captcha" placeholder="请输入验证码">
+        </div>
+        <button type="submit" class="btn btn-info btn-lg btn-block">提交</button>
+
+    </form>
+</div>
+</body>
+</html>

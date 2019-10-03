@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>提交成功</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <p class="text-warning">刷新页面,查看评教状态</p>
+    <!--<p><a href="https://github.com/georgezhou314/PersonalWebsite">觉得不错，可以给个STAR</a></p>-->
+    <p class="text-info">当前已评教的课程</p>
+    <ul th:each="lm : ${listMap.yet}" class="list-group">
+
+        <li class="list-group-item">
+            <text th:text="${lm.evaluatedPeople}">&nbsp;&nbsp;&nbsp;&nbsp;</text>
+            <text th:text="${lm.courseName}"> </text>
+        </li>
+    </ul>
+    <hr/>
+
+    <p class="text-info">当前未评教的课程</p>
+    <ul th:each="lm : ${listMap.not}" class="list-group">
+        <li class="list-group-item">
+            <text th:text="${lm.evaluatedPeople}">&nbsp;&nbsp;&nbsp;&nbsp;</text>
+            <text th:text="${lm.courseName}">       </text>
+        </li>
+    </ul>
+
+</div>
+</body>
+</html>

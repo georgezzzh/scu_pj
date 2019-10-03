@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+           http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--处理静态资源-->
+    <mvc:resources mapping="/statics/**" location="statics/"/>
+    <mvc:default-servlet-handler/>
+
+    <context:component-scan base-package="com.sonydafa.pj.*"/>
+
+    <!--thymeleaf模板-->
+    <bean id="viewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver"
+          p:characterEncoding="UTF-8"
+          p:templateEngine-ref="templateEngine"/>
+
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine"
+          p:templateResolver-ref="templateResolver"/>
+    <bean id="templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver"
+          p:prefix="/WEB-INF/templates/"
+          p:suffix=".html"
+          p:characterEncoding="UTF-8"
+          p:templateMode="HTML5"/>
+
+    <!--配置标准multipart-->
+    <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+    <mvc:annotation-driven/>
+</beans>
